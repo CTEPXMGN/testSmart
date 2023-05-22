@@ -8,7 +8,7 @@
         <th>Удалить</th>
         <th>Изменить</th>
       </tr>
-      <tr v-for="todo in todosData">
+      <tr v-for="todo in todosData" :key="todo.id">
         <td class="item-id">{{ todo.id }}</td>
         <td class="item-title" :class="{ done: todo.completed }">
           {{ todo.title }}
@@ -24,7 +24,7 @@
         <td class="item-del">
           <button
             class="item-btn item-btn__del"
-            @click="deleteTask(todo.id)"
+            @click="$emit('removeTask', todo.id)"
           ></button>
         </td>
         <td class="item-change">
@@ -35,46 +35,33 @@
 
     <button class="add-item__btn" @click="toggleNewTaskModal"></button>
 
-    <div class="add-modal" :class="{ hide: addModalView }">
-      <form class="add-modal__form" @submit.prevent="">
-        <input type="text" class="add-modal__input" />
-        <div class="add-modal__btns">
-          <button class="add-modal__btn-save" @click="toggleNewTaskModal">
-            Сохранить
-          </button>
-          <button class="add-modal__btn-cancel" @click="toggleNewTaskModal">
-            Отмена
-          </button>
-        </div>
-      </form>
-    </div>
+    <AddTaskModal
+      @toggleNewTaskModal="toggleNewTaskModal"
+      :addModalView="addModalView"
+      :todosData="todosData"
+    />
   </main>
 </template>
 
 <script>
+import AddTaskModal from "./AddTaskModal.vue";
 export default {
-  emits: ["addTaskModal"],
+  components: {
+    AddTaskModal,
+  },
   props: {
     todosData: {
       type: Array,
       required: true,
     },
   },
+  emits: ["removeTask"],
   data() {
     return {
       addModalView: true,
     };
   },
   methods: {
-    async deleteTask(id) {
-      console.log(id);
-      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
-        method: "DELETE",
-      });
-    },
-    handleAddModal() {
-      this.$emit("addTaskModal");
-    },
     toggleNewTaskModal() {
       this.addModalView = !this.addModalView;
     },
@@ -117,14 +104,14 @@ main {
 
 .item-btn__del {
   background-size: 75%;
-  background-image: url(../../assets/img/delete.png);
+  background-image: url(../assets/img/delete.png);
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .item-btn__change {
   background-size: 70%;
-  background-image: url(../../assets/img/edit.png);
+  background-image: url(../assets/img/edit.png);
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -147,7 +134,7 @@ th {
   border: 1px solid #42b983;
   background-color: inherit;
   background-size: 25px;
-  background-image: url(../../assets/img/add.png);
+  background-image: url(../assets/img/add.png);
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -155,49 +142,5 @@ th {
 .done {
   text-decoration: line-through;
   color: rgb(88, 88, 88);
-}
-
-.add-modal {
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* opacity: 0; */
-  /* pointer-events: none; */
-  transition: 0.5s;
-  /* order: 3; */
-}
-
-.add-modal__form {
-  width: 220px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  background-color: lightgray;
-  color: black;
-}
-
-.add-modal__input {
-  height: 20px;
-  width: 95%;
-  margin-bottom: 20px;
-}
-
-.add-modal__btns {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.hide {
-  display: none;
 }
 </style>

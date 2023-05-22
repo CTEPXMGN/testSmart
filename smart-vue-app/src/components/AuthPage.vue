@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { saveUser } from "../../storage";
+import { saveUser } from "../storage";
 export default {
   emits: ["setLogin"],
   data() {
