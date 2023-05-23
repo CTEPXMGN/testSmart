@@ -25,7 +25,10 @@
         <td class="item-del">
           <button
             class="item-btn item-btn__del"
-            @click="$emit('removeTask', todo.id)"
+            @click="
+              toggleMessage();
+              $emit('removeTask', todo.id);
+            "
           ></button>
         </td>
         <td class="item-change">
@@ -50,16 +53,19 @@
       :editModalView="editModalView"
       :todosData="todosData"
     />
+    <ShowMessage :class="{ hide: hideMessage }" />
   </main>
 </template>
 
 <script>
 import AddTaskModal from "./AddTaskModal.vue";
 import AddEditModal from "./AddEditModal.vue";
+import ShowMessage from "./ShowMessage.vue";
 export default {
   components: {
     AddTaskModal,
     AddEditModal,
+    ShowMessage,
   },
   props: {
     todosData: {
@@ -72,6 +78,7 @@ export default {
     return {
       addModalView: true,
       editModalView: true,
+      hideMessage: true,
     };
   },
   methods: {
@@ -80,6 +87,12 @@ export default {
     },
     toggleEditTaskModal() {
       this.editModalView = !this.editModalView;
+    },
+    toggleMessage() {
+      this.hideMessage = !this.hideMessage;
+      setTimeout(() => {
+        this.hideMessage = !this.hideMessage;
+      }, 2000);
     },
   },
 };

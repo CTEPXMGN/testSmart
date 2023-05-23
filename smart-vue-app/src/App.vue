@@ -181,15 +181,18 @@ export default {
       this.isLogged = !this.isLogged;
     },
     removeTask(id) {
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: "DELETE",
+      });
       this.todosData = this.todosData.filter((todo) => {
         return todo.id !== id;
       });
     },
-    editTask() {
-      fetch("https://jsonplaceholder.typicode.com/posts/1", {
+    editTask(task) {
+      fetch(`https://jsonplaceholder.typicode.com/todos/${task.id}`, {
         method: "PATCH",
         body: JSON.stringify({
-          title: "foo",
+          title: task,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -199,15 +202,17 @@ export default {
         .then((json) => console.log(json));
     },
     addNewTask(task) {
-      this.todosData = [
-        ...this.todosData,
-        {
-          id: getId(this.todosData.length), // Продумать уникальность ID
-          userId: 1,
-          completed: false,
+      fetch("https://jsonplaceholder.typicode.com/todos/1", {
+        method: "PATCH",
+        body: JSON.stringify({
           title: task,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
         },
-      ];
+      })
+        .then((response) => response.json())
+        .then((json) => (this.todosData = [...this.todosData, json]));
     },
     toggleDoneTask(id) {
       this.todosData = this.todosData.map((task) => {

@@ -6,8 +6,8 @@
         <button
           class="add-modal__btn-save"
           @click="
-            // this.$parent.$emit('addNewTask', this.title); // $parent - это костыль? Как можно от него избавиться?
-            handlerToggle()
+            this.$parent.$emit('editTask', this.title); // $parent - это костыль? Как можно от него избавиться?
+            handlerToggle();
           "
         >
           Сохранить
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  emits: ["toggleEditTaskModal", "addNewTask"],
+  emits: ["toggleEditTaskModal", "editTask"],
   props: {
     editModalView: {
       type: Boolean,
