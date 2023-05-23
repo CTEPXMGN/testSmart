@@ -7,6 +7,7 @@
       @removeTask="removeTask"
       @toggleDoneTask="toggleDoneTask"
       @addNewTask="addNewTask"
+      @editTask="editTask"
     />
     <footer class="footer">
       <p>
@@ -184,7 +185,19 @@ export default {
         return todo.id !== id;
       });
     },
-    editTask() {},
+    editTask() {
+      fetch("https://jsonplaceholder.typicode.com/posts/1", {
+        method: "PATCH",
+        body: JSON.stringify({
+          title: "foo",
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+    },
     addNewTask(task) {
       this.todosData = [
         ...this.todosData,

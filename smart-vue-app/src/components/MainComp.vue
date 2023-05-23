@@ -46,7 +46,7 @@
     />
     <AddEditModal
       @toggleEditTaskModal="toggleEditTaskModal"
-      @addNewTask="this.$emit('addNewTask')"
+      @addNewTask="this.$emit('editTask')"
       :editModalView="editModalView"
       :todosData="todosData"
     />
@@ -67,7 +67,7 @@ export default {
       required: true,
     },
   },
-  emits: ["removeTask", "toggleDoneTask", "addNewTask"],
+  emits: ["removeTask", "toggleDoneTask", "addNewTask", "editTask"],
   data() {
     return {
       addModalView: true,
