@@ -1,8 +1,13 @@
 <template>
   <AuthPage v-if="!isLogged" @setLogin="setLogin" />
   <div v-else>
-    <HeaderComp :isLogged="isLogged" @setLogin="setLogin" />
-    <MainComp :todosData="todosData" @removeTask="removeTask" />
+    <header-comp :isLogged="isLogged" @setLogin="setLogin" />
+    <main-comp
+      :todosData="todosData"
+      @removeTask="removeTask"
+      @toggleDoneTask="toggleDoneTask"
+      @addNewTask="addNewTask"
+    />
     <footer class="footer">
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos,
@@ -178,7 +183,23 @@ export default {
         return todo.id !== id;
       });
     },
-    addNewTask() {},
+    addNewTask() {
+      this.todosData = [
+        ...this.todosData,
+        {
+          id: 250,
+          userId: 1,
+          completed: false,
+          title: "1234567",
+        },
+      ];
+    },
+    toggleDoneTask(id) {
+      this.todosData = this.todosData.map((task) => {
+        task.id === id && (task.completed = !task.completed);
+        return task;
+      });
+    },
   },
   mounted() {
     this.getTodos();

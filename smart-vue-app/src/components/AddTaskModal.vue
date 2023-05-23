@@ -7,7 +7,12 @@
           class="add-modal__btn-save"
           @click="
             handlerToggle();
-            setNewTask();
+            addNewTask({
+              id: 250,
+              userId: 1,
+              completed: false,
+              title: '1234567',
+            });
           "
         >
           Сохранить
@@ -22,7 +27,7 @@
 
 <script>
 export default {
-  emits: ["toggleNewTaskModal"],
+  emits: ["toggleNewTaskModal", "addNewTask"],
   props: {
     addModalView: {
       type: Boolean,

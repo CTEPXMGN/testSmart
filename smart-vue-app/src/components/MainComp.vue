@@ -18,6 +18,7 @@
             class="item-check__input"
             type="checkbox"
             v-bind:checked="todo.completed"
+            @click="$emit('toggleDoneTask', todo.id)"
           />
           <div class="chekbox"></div>
         </td>
@@ -34,9 +35,10 @@
     </table>
 
     <button class="add-item__btn" @click="toggleNewTaskModal"></button>
-
+    <button @click="this.$emit('addNewTask')">+</button>
     <AddTaskModal
       @toggleNewTaskModal="toggleNewTaskModal"
+      @addNewTask="this.$emit('addNewTask')"
       :addModalView="addModalView"
       :todosData="todosData"
     />
@@ -55,7 +57,7 @@ export default {
       required: true,
     },
   },
-  emits: ["removeTask"],
+  emits: ["removeTask", "toggleDoneTask", "addNewTask"],
   data() {
     return {
       addModalView: true,
