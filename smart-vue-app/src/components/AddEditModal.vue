@@ -1,13 +1,13 @@
 <template>
-  <div class="add-modal" :class="{ hide: addModalView }">
+  <div class="add-modal" :class="{ hide: editModalView }">
     <form class="add-modal__form" @submit.prevent="">
       <input type="text" class="add-modal__input" v-model="title" />
       <div class="add-modal__btns">
         <button
           class="add-modal__btn-save"
           @click="
-            this.$parent.$emit('addNewTask', this.title); // $parent - это костыль? Как можно от него избавиться?
-            handlerToggle();
+            // this.$parent.$emit('addNewTask', this.title); // $parent - это костыль? Как можно от него избавиться?
+            handlerToggle()
           "
         >
           Сохранить
@@ -22,9 +22,9 @@
 
 <script>
 export default {
-  emits: ["toggleNewTaskModal", "addNewTask"],
+  emits: ["toggleEditTaskModal", "addNewTask"],
   props: {
-    addModalView: {
+    editModalView: {
       type: Boolean,
     },
     todosData: {
@@ -39,7 +39,7 @@ export default {
   methods: {
     handlerToggle() {
       this.title = "";
-      this.$emit("toggleNewTaskModal");
+      this.$emit("toggleEditTaskModal");
     },
   },
 };

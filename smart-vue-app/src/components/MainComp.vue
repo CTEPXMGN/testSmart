@@ -29,17 +29,25 @@
           ></button>
         </td>
         <td class="item-change">
-          <button class="item-btn item-btn__change"></button>
+          <button
+            class="item-btn item-btn__change"
+            @click="toggleEditTaskModal"
+          ></button>
         </td>
       </tr>
     </table>
 
     <button class="add-item__btn" @click="toggleNewTaskModal"></button>
-    <button @click="this.$emit('addNewTask')">+</button>
     <AddTaskModal
       @toggleNewTaskModal="toggleNewTaskModal"
       @addNewTask="this.$emit('addNewTask')"
       :addModalView="addModalView"
+      :todosData="todosData"
+    />
+    <AddEditModal
+      @toggleEditTaskModal="toggleEditTaskModal"
+      @addNewTask="this.$emit('addNewTask')"
+      :editModalView="editModalView"
       :todosData="todosData"
     />
   </main>
@@ -47,9 +55,11 @@
 
 <script>
 import AddTaskModal from "./AddTaskModal.vue";
+import AddEditModal from "./AddEditModal.vue";
 export default {
   components: {
     AddTaskModal,
+    AddEditModal,
   },
   props: {
     todosData: {
@@ -61,11 +71,15 @@ export default {
   data() {
     return {
       addModalView: true,
+      editModalView: true,
     };
   },
   methods: {
     toggleNewTaskModal() {
       this.addModalView = !this.addModalView;
+    },
+    toggleEditTaskModal() {
+      this.editModalView = !this.editModalView;
     },
   },
 };

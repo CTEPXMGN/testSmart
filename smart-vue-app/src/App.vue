@@ -23,6 +23,7 @@
 import HeaderComp from "./components/HeaderComp.vue";
 import MainComp from "./components/MainComp.vue";
 import AuthPage from "./components/AuthPage.vue";
+import getId from "./utils.js";
 
 export default {
   components: {
@@ -183,14 +184,15 @@ export default {
         return todo.id !== id;
       });
     },
-    addNewTask() {
+    editTask() {},
+    addNewTask(task) {
       this.todosData = [
         ...this.todosData,
         {
-          id: 250,
+          id: getId(this.todosData.length), // Продумать уникальность ID
           userId: 1,
           completed: false,
-          title: "1234567",
+          title: task,
         },
       ];
     },
