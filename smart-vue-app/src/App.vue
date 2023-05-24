@@ -11,10 +11,8 @@
     />
     <footer class="footer">
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos,
-        ullam enim! Maiores, beatae quo. Eligendi quis unde cumque accusamus
-        maxime debitis officiis ab, aspernatur quod modi. Rem asperiores
-        explicabo recusandae.
+        Данное приложение представляет собой список задач. Данные можно
+        добавлять, удалять, изменять.
       </p>
     </footer>
   </div>
@@ -34,6 +32,8 @@ export default {
   },
   data() {
     return {
+      currentUserId: 1,
+      editableTask: null,
       isLogged: false,
       todosData: [
         // {
@@ -164,7 +164,7 @@ export default {
     async getTodos() {
       try {
         let response = await fetch(
-          "https://jsonplaceholder.typicode.com/todos?userId=1"
+          `https://jsonplaceholder.typicode.com/todos?userId=${this.currentUserId}`
         );
         if (!response.ok) {
           console.log("Error " + response.status);
