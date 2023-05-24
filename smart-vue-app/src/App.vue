@@ -1,5 +1,9 @@
 <template>
-  <AuthPage v-if="!isLogged" @setLogin="setLogin" />
+  <AuthPage
+    v-if="!isLogged"
+    @setLogin="setLogin"
+    @setCurrentUser="setCurrentUser"
+  />
   <div v-else>
     <header-comp :isLogged="isLogged" @setLogin="setLogin" />
     <main-comp
@@ -179,6 +183,9 @@ export default {
     },
     setLogin() {
       this.isLogged = !this.isLogged;
+    },
+    setCurrentUser(id) {
+      this.currentUserId = id;
     },
     removeTask(id) {
       fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {

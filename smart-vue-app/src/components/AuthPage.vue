@@ -26,7 +26,7 @@
 import { saveUser } from "../storage";
 import usersData from "../users";
 export default {
-  emits: ["setLogin"],
+  emits: ["setLogin", "setCurrentUser"],
   data() {
     return {
       login: "",
@@ -39,7 +39,9 @@ export default {
       usersData.map((user) => {
         Number(this.login) === user.id &&
         Number(this.password) === user.password
-          ? (saveUser(this.login, this.password), this.$emit("setLogin"))
+          ? (saveUser(this.login, this.password),
+            this.$emit("setLogin"),
+            this.$emit("setCurrentUser", user.id))
           : (this.correctInputData = false);
       });
     },
