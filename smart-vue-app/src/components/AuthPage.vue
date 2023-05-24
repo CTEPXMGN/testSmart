@@ -14,6 +14,9 @@
         placeholder="пароль"
         v-model="this.password"
       />
+      <p class="auth__message" :class="{ hide: correctInputData }">
+        Неверный логин или пароль
+      </p>
       <button class="auth__button">Войти</button>
     </form>
   </div>
@@ -21,18 +24,24 @@
 
 <script>
 import { saveUser } from "../storage";
+import usersData from "../users";
 export default {
   emits: ["setLogin"],
   data() {
     return {
       login: "",
       password: "",
+      correctInputData: true,
     };
   },
   methods: {
     handleAuth() {
-      saveUser(this.login, this.password);
-      this.$emit("setLogin");
+      usersData.map((user) => {
+        Number(this.login) === user.id &&
+        Number(this.password) === user.password
+          ? (saveUser(this.login, this.password), this.$emit("setLogin"))
+          : (this.correctInputData = false);
+      });
     },
   },
 };
@@ -40,7 +49,7 @@ export default {
 
 <style scoped>
 .auth__container {
-  width: 200px;
+  width: 250px;
   padding: 20px;
   margin: 200px auto;
   display: flex;
@@ -70,5 +79,13 @@ export default {
   width: 80px;
   height: 40px;
   padding: 6px 12px;
+}
+
+.auth__message {
+  color: red;
+}
+
+.hide {
+  display: none;
 }
 </style>
