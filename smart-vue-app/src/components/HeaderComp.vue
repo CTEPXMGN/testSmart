@@ -8,8 +8,8 @@
           v-for="(item, key) in menu"
           v-bind:key="key"
         >
-          <a href="">
-            {{ item }}
+          <a href="#" @click.prevent="$emit('changeActivePage', item.pageNum)">
+            {{ item.title }}
           </a>
         </li>
       </ul>
@@ -23,11 +23,15 @@
 
 <script>
 export default {
-  emits: ["setLogin"],
+  emits: ["setLogin", "changeActivePage"],
   data() {
     return {
       logo: "Logo",
-      menu: ["Главная", "Все TODO", "Пользователи"],
+      menu: [
+        { title: "Главная", pageNum: 1 },
+        { title: "Все TODO", pageNum: 2 },
+        { title: "Главная", pageNum: 3 },
+      ],
     };
   },
   methods: {

@@ -100,6 +100,7 @@ export default {
 
 <style scoped>
 main {
+  /* margin-top: 100px; */
   display: flex;
   flex-direction: column;
   position: relative;

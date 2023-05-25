@@ -1,9 +1,14 @@
 <template>
-  <div>Все тудушки</div>
+  <div class="all-todos">Все тудушки</div>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.all-todos {
+  height: 100%;
+  flex-grow: 1;
+}
+</style>
