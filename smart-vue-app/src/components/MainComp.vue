@@ -8,7 +8,7 @@
         <th>Удалить</th>
         <th>Изменить</th>
       </tr>
-      <tr v-for="todo in todosData" :key="todo.id">
+      <tr v-for="todo in currentUserData" :key="todo.id">
         <td class="item-id">{{ todo.id }}</td>
         <td class="item-title" :class="{ done: todo.completed }">
           {{ todo.title }}
@@ -68,7 +68,7 @@ export default {
     ShowMessage,
   },
   props: {
-    todosData: {
+    currentUserData: {
       type: Array,
       required: true,
     },

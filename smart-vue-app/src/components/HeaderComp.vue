@@ -14,7 +14,7 @@
         </li>
       </ul>
     </nav>
-    <h2 class="header__name">CTEPX</h2>
+    <h2 class="header__name">Пользователь: {{ currentUserId }}</h2>
     <button class="header__button" @click="handleAuth">
       {{ isLogged ? "Выйти" : "Войти" }}
     </button>
@@ -39,6 +39,9 @@ export default {
     isLogged: {
       type: String,
     },
+    currentUserId: {
+      type: Number,
+    },
   },
 };
 </script>
@@ -47,7 +50,7 @@ export default {
 .header {
   height: 100px;
   display: grid;
-  grid-template-columns: 150px 1fr 150px 150px;
+  grid-template-columns: 150px 1fr 200px 150px;
   position: sticky;
   top: 0;
   align-content: center;
@@ -81,5 +84,10 @@ export default {
 
 .header-menu__item {
   text-transform: uppercase;
+}
+
+.header__name {
+  font-size: 1em;
+  width: 195px;
 }
 </style>

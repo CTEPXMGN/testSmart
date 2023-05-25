@@ -1,7 +1,7 @@
 <template>
   <div className="auth__container">
     <p>Авторизация</p>
-    <form action="submit" @submit.prevent="handleAuth">
+    <form action="submit" @submit.prevent="handleAuth()">
       <input
         type="text"
         class="auth__input-login"
@@ -26,7 +26,7 @@
 import { saveUser } from "../storage";
 import usersData from "../users";
 export default {
-  emits: ["setLogin", "setCurrentUser"],
+  emits: ["setLogin", "setCurrentUser", "getTodos"],
   data() {
     return {
       login: "",
@@ -41,7 +41,8 @@ export default {
         Number(this.password) === user.password
           ? (saveUser(this.login, this.password),
             this.$emit("setLogin"),
-            this.$emit("setCurrentUser", user.id))
+            this.$emit("setCurrentUser", user.id),
+            this.$emit("getTodos"))
           : (this.correctInputData = false);
       });
     },
