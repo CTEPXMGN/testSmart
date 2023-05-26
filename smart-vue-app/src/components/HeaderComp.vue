@@ -14,7 +14,9 @@
         </li>
       </ul>
     </nav>
-    <h2 class="header__name">Пользователь: {{ currentUserName }}</h2>
+    <h2 class="header__name">
+      <span> {{ currentUserName }}</span>
+    </h2>
     <button class="header__button" @click="handleAuth">
       {{ isLogged ? "Выйти" : "Войти" }}
     </button>
@@ -95,7 +97,10 @@ export default {
 }
 
 .header__name {
-  font-size: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3em;
   width: 195px;
 }
 </style>

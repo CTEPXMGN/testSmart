@@ -21,6 +21,7 @@ export default {
 
 <style scoped>
 .message-modal {
+  height: 50px;
   width: 150px;
   position: fixed;
   top: 50%;
@@ -34,7 +35,7 @@ export default {
 }
 
 .message-modal__text {
-  line-height: 1;
+  line-height: 1.5;
 }
 
 .hide {

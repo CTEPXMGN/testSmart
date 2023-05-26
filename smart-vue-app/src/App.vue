@@ -83,24 +83,23 @@ export default {
       }
     },
     async getUsers() {
-      // try {
-      //   let response = await fetch(
-      //     `https://jsonplaceholder.typicode.com/users`
-      //   );
-      //   if (!response.ok) {
-      //     console.log("Error " + response.status);
-      //   } else {
-      //     const result = await response.json();
-      //     console.log(result);
-      //     this.usersData = result;
-      //   }
-      // } catch (err) {
-      //   console.log(err.message);
-      // }
-      fetch("https://jsonplaceholder.typicode.com/users")
-        .then((response) => response.json())
-        .then((json) => (this.usersData = json))
-        .catch((err) => console.log(err.message));
+      try {
+        let response = await fetch(
+          `https://jsonplaceholder.typicode.com/users`
+        );
+        if (!response.ok) {
+          console.log("Error " + response.status);
+        } else {
+          const result = await response.json();
+          console.log(result);
+          this.usersData = result;
+          if (result) {
+            this.setCurrentUserName(result);
+          }
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
     },
     changeActivePage(num) {
       this.activePage = num;
@@ -116,10 +115,12 @@ export default {
     setCurrentUser(id) {
       this.currentUserId = id;
     },
-    setCurrentUserName() {
-      // user.id === this.currentUserId &&
-      //   (this.currentUserName = user.username);
-      // });
+    setCurrentUserName(users) {
+      users.forEach(
+        (user) =>
+          user.id === this.currentUserId &&
+          (this.currentUserName = user.username)
+      );
     },
     removeTask(id) {
       fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
@@ -143,8 +144,8 @@ export default {
         .then((json) => console.log(json));
     },
     addNewTask(task) {
-      fetch("https://jsonplaceholder.typicode.com/todos/1", {
-        method: "PATCH",
+      fetch("https://jsonplaceholder.typicode.com/todos", {
+        method: "POST",
         body: JSON.stringify({
           title: task,
         }),
@@ -153,7 +154,10 @@ export default {
         },
       })
         .then((response) => response.json())
-        .then((json) => (this.todosData = [...this.todosData, json]));
+        .then(
+          (json) =>
+            console.log(json) /**(this.todosData = [...this.todosData, json])*/
+        );
     },
     toggleDoneTask(id) {
       this.todosData = this.todosData.map((task) => {
