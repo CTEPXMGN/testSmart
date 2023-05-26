@@ -21,7 +21,7 @@
       @editTask="editTask"
       v-if="activePage === 1"
     />
-    <all-todos v-else-if="activePage === 2" />
+    <all-todos v-else-if="activePage === 2" :todosData="todosData" />
     <users-comp v-else-if="activePage === 3" />
     <!-- <footer class="footer">
       <p>
@@ -134,17 +134,10 @@ export default {
       });
     },
   },
-  // mounted() {
-  //   this.getTodos();
-  // },
 };
 </script>
 
 <style scoped>
-.main {
-  flex-grow: 1;
-}
-
 /* .footer {
   width: 100%;
   height: 80px;

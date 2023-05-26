@@ -1,9 +1,13 @@
 <template>
-  <div>Пользователи</div>
+  <div class="all-users">Пользователи</div>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style scoped></style>
+<style scoped>
+.all-users {
+  flex-grow: 1;
+}
+</style>
