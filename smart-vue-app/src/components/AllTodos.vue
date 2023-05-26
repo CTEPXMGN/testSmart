@@ -17,6 +17,7 @@
           <input
             class="item-check__input"
             type="checkbox"
+            v-if="todo.userId === currentUserId"
             v-bind:checked="todo.completed"
             @click="$emit('toggleDoneTask', todo.id)"
           />
@@ -24,6 +25,7 @@
         </td>
         <td class="item-del">
           <button
+            v-if="todo.userId === currentUserId"
             class="item-btn item-btn__del"
             @click="
               toggleMessage();
@@ -33,6 +35,7 @@
         </td>
         <td class="item-change">
           <button
+            v-if="todo.userId === currentUserId"
             class="item-btn item-btn__change"
             @click="toggleEditTaskModal"
           ></button>
@@ -47,6 +50,10 @@ export default {
   props: {
     todosData: {
       type: Array,
+      required: true,
+    },
+    currentUserId: {
+      type: Number,
       required: true,
     },
   },
@@ -72,6 +79,7 @@ export default {
 }
 
 .item-title {
+  padding-left: 15px;
   text-align: left;
 }
 
@@ -103,6 +111,10 @@ th {
   height: 50px;
   text-align: center;
   border-bottom: 1px solid grey;
+}
+
+tr:nth-child(even) {
+  background-color: #2e2e2e;
 }
 
 th {

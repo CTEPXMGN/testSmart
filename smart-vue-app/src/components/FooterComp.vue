@@ -16,7 +16,7 @@ export default {};
   width: 100%;
   height: 80px;
   padding: 10px 20px;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   background-color: #242424;
   border-top: 2px solid #fff;

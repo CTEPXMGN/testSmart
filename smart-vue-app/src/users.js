@@ -1,4 +1,4 @@
-const usersData = [
+const usersAuthData = [
   { id: 1, password: 1 },
   { id: 2, password: 2 },
   { id: 3, password: 3 },
@@ -9,4 +9,4 @@ const usersData = [
   { id: 8, password: 8 },
 ];
 
-export default usersData;
+export default usersAuthData;

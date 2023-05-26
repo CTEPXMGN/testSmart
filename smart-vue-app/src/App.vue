@@ -4,15 +4,16 @@
     @setLogin="setLogin"
     @setCurrentUser="setCurrentUser"
     @getTodos="getTodos"
+    @getUsers="getUsers"
   />
   <div v-else>
     <header-comp
       :isLogged="isLogged"
-      :currentUserId="currentUserId"
+      :currentUserName="currentUserName"
       @changeActivePage="changeActivePage"
       @setLogin="setLogin"
     />
-    <!-- <router-view></router-view> -->
+
     <main-comp
       :currentUserData="currentUserData"
       @removeTask="removeTask"
@@ -21,14 +22,15 @@
       @editTask="editTask"
       v-if="activePage === 1"
     />
-    <all-todos v-else-if="activePage === 2" :todosData="todosData" />
-    <users-comp v-else-if="activePage === 3" />
-    <!-- <footer class="footer">
-      <p>
-        Данное приложение представляет собой список задач. Данные можно
-        добавлять, удалять, изменять.
-      </p>
-    </footer> -->
+
+    <all-todos
+      v-else-if="activePage === 2"
+      :todosData="todosData"
+      :currentUserId="currentUserId"
+    />
+
+    <users-comp v-else-if="activePage === 3" :usersData="usersData" />
+
     <footer-comp />
   </div>
 </template>
@@ -40,7 +42,6 @@ import MainComp from "./components/MainComp.vue";
 import AllTodos from "./components/AllTodos.vue";
 import UsersComp from "./components/Users.vue";
 import AuthPage from "./components/AuthPage.vue";
-import getId from "./utils.js";
 
 export default {
   components: {
@@ -54,10 +55,12 @@ export default {
   data() {
     return {
       activePage: 1,
-      currentUserId: 1,
+      currentUserId: 0,
+      currentUserName: "",
       editableTask: null,
       isLogged: false,
       todosData: [],
+      usersData: [],
       currentUserData: [],
     };
   },
@@ -79,6 +82,26 @@ export default {
         console.log(err.message);
       }
     },
+    async getUsers() {
+      // try {
+      //   let response = await fetch(
+      //     `https://jsonplaceholder.typicode.com/users`
+      //   );
+      //   if (!response.ok) {
+      //     console.log("Error " + response.status);
+      //   } else {
+      //     const result = await response.json();
+      //     console.log(result);
+      //     this.usersData = result;
+      //   }
+      // } catch (err) {
+      //   console.log(err.message);
+      // }
+      fetch("https://jsonplaceholder.typicode.com/users")
+        .then((response) => response.json())
+        .then((json) => (this.usersData = json))
+        .catch((err) => console.log(err.message));
+    },
     changeActivePage(num) {
       this.activePage = num;
     },
@@ -92,6 +115,11 @@ export default {
     },
     setCurrentUser(id) {
       this.currentUserId = id;
+    },
+    setCurrentUserName() {
+      // user.id === this.currentUserId &&
+      //   (this.currentUserName = user.username);
+      // });
     },
     removeTask(id) {
       fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {

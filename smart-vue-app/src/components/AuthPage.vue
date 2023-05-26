@@ -24,9 +24,9 @@
 
 <script>
 import { saveUser } from "../storage";
-import usersData from "../users";
+import usersAuthData from "../users";
 export default {
-  emits: ["setLogin", "setCurrentUser", "getTodos"],
+  emits: ["setLogin", "setCurrentUser", "getTodos", "getUsers"],
   data() {
     return {
       login: "",
@@ -36,13 +36,14 @@ export default {
   },
   methods: {
     handleAuth() {
-      usersData.map((user) => {
+      usersAuthData.map((user) => {
         Number(this.login) === user.id &&
         Number(this.password) === user.password
           ? (saveUser(this.login, this.password),
             this.$emit("setLogin"),
             this.$emit("setCurrentUser", user.id),
-            this.$emit("getTodos"))
+            this.$emit("getTodos"),
+            this.$emit("getUsers"))
           : (this.correctInputData = false);
       });
     },

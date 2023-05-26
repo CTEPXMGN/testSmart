@@ -14,7 +14,7 @@
         </li>
       </ul>
     </nav>
-    <h2 class="header__name">Пользователь: {{ currentUserId }}</h2>
+    <h2 class="header__name">Пользователь: {{ currentUserName }}</h2>
     <button class="header__button" @click="handleAuth">
       {{ isLogged ? "Выйти" : "Войти" }}
     </button>
@@ -30,7 +30,7 @@ export default {
       menu: [
         { title: "Главная", pageNum: 1 },
         { title: "Все TODO", pageNum: 2 },
-        { title: "Главная", pageNum: 3 },
+        { title: "Пользователи", pageNum: 3 },
       ],
     };
   },
@@ -43,7 +43,7 @@ export default {
     isLogged: {
       type: String,
     },
-    currentUserId: {
+    currentUserName: {
       type: Number,
     },
   },
@@ -71,6 +71,10 @@ export default {
   display: flex;
   justify-content: center;
   align-self: center;
+}
+
+.header__button {
+  margin: 0 auto;
 }
 
 .header__logo {

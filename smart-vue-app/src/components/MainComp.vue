@@ -100,6 +100,7 @@ export default {
 
 <style scoped>
 main {
+  padding-bottom: 100px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -119,6 +120,7 @@ main {
 }
 
 .item-title {
+  padding-left: 15px;
   text-align: left;
 }
 
@@ -150,6 +152,10 @@ th {
   height: 50px;
   text-align: center;
   border-bottom: 1px solid grey;
+}
+
+tr:nth-child(even) {
+  background-color: #2e2e2e;
 }
 
 th {
