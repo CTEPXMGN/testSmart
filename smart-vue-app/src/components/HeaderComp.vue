@@ -8,7 +8,12 @@
           v-for="(item, key) in menu"
           v-bind:key="key"
         >
-          <a href="#" @click.prevent="$emit('changeActivePage', item.pageNum)">
+          <a
+            href="#"
+            @click.prevent="$emit('changeActivePage', item.pageNum)"
+            @click="handleCheck(item.pageNum)"
+            :class="{ checked: item.checked }"
+          >
             {{ item.title }}
           </a>
         </li>
@@ -30,15 +35,23 @@ export default {
     return {
       logo: "Logo",
       menu: [
-        { title: "Главная", pageNum: 1 },
-        { title: "Все TODO", pageNum: 2 },
-        { title: "Пользователи", pageNum: 3 },
+        { title: "Главная", pageNum: 1, checked: true },
+        { title: "Все TODO", pageNum: 2, checked: false },
+        { title: "Пользователи", pageNum: 3, checked: false },
       ],
     };
   },
   methods: {
     handleAuth() {
       this.$emit("setLogin");
+    },
+    handleCheck(pageNum) {
+      this.menu = this.menu.map((item) => {
+        item.pageNum === pageNum
+          ? (item.checked = true)
+          : (item.checked = false);
+        return item;
+      });
     },
   },
   props: {
@@ -102,5 +115,9 @@ export default {
   align-items: center;
   font-size: 1.3em;
   width: 195px;
+}
+
+.checked {
+  color: teal;
 }
 </style>

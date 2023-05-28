@@ -33,6 +33,7 @@ export default {
 <style scoped>
 .all-users {
   flex-grow: 1;
+  padding-bottom: 100px;
 }
 
 .table {

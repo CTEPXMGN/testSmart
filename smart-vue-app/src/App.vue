@@ -3,8 +3,9 @@
     v-if="!isLogged"
     @setLogin="setLogin"
     @setCurrentUser="setCurrentUser"
-    @getTodos="getTodos"
+    @getAllTodos="getAllTodos"
     @getUsers="getUsers"
+    @getFilteringTodos="getFilteringTodos"
   />
   <div v-else>
     <header-comp
@@ -15,18 +16,19 @@
     />
 
     <main-comp
+      v-if="activePage === 1"
       :currentUserData="currentUserData"
       @removeTask="removeTask"
       @toggleDoneTask="toggleDoneTask"
       @addNewTask="addNewTask"
       @editTask="editTask"
-      v-if="activePage === 1"
     />
 
     <all-todos
       v-else-if="activePage === 2"
       :todosData="todosData"
       :currentUserId="currentUserId"
+      @removeTask="removeTask"
     />
 
     <users-comp v-else-if="activePage === 3" :usersData="usersData" />
@@ -65,7 +67,7 @@ export default {
     };
   },
   methods: {
-    async getTodos() {
+    async getAllTodos() {
       try {
         let response = await fetch(
           `https://jsonplaceholder.typicode.com/todos`
@@ -74,9 +76,7 @@ export default {
           console.log("Error " + response.status);
         } else {
           const result = await response.json();
-          console.log(result);
           this.todosData = result;
-          this.filterData();
         }
       } catch (err) {
         console.log(err.message);
@@ -91,7 +91,6 @@ export default {
           console.log("Error " + response.status);
         } else {
           const result = await response.json();
-          console.log(result);
           this.usersData = result;
           if (result) {
             this.setCurrentUserName(result);
@@ -101,14 +100,30 @@ export default {
         console.log(err.message);
       }
     },
+    async getFilteringTodos(id) {
+      try {
+        let response = await fetch(
+          `https://jsonplaceholder.typicode.com/todos/?userId=${id}`
+        );
+        if (!response.ok) {
+          console.log("Error " + response.status);
+        } else {
+          const result = await response.json();
+          this.currentUserData = result;
+          console.log(result);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
     changeActivePage(num) {
       this.activePage = num;
     },
-    filterData() {
-      this.currentUserData = this.todosData.filter((task) => {
-        return task.userId === this.currentUserId;
-      });
-    },
+    // filterData() {
+    //   this.currentUserData = this.todosData.filter((task) => {
+    //     return task.userId === this.currentUserId;
+    //   });
+    // },
     setLogin() {
       this.isLogged = !this.isLogged;
     },
@@ -127,6 +142,9 @@ export default {
         method: "DELETE",
       });
       this.todosData = this.todosData.filter((todo) => {
+        return todo.id !== id;
+      });
+      this.currentUserData = this.currentUserData.filter((todo) => {
         return todo.id !== id;
       });
     },
@@ -148,19 +166,20 @@ export default {
         method: "POST",
         body: JSON.stringify({
           title: task,
+          userId: 1,
+          complited: false,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
         .then((response) => response.json())
-        .then(
-          (json) =>
-            console.log(json) /**(this.todosData = [...this.todosData, json])*/
-        );
+        .then((json) => console.log(json))
+        .then((json) => this.todosData.concat(json))
+        .then(console.log(this.todosData));
     },
     toggleDoneTask(id) {
-      this.todosData = this.todosData.map((task) => {
+      this.currentUserData = this.currentUserData.map((task) => {
         task.id === id && (task.completed = !task.completed);
         return task;
       });
@@ -169,14 +188,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* .footer {
-  width: 100%;
-  height: 80px;
-  padding: 10px 20px;
-  position: sticky;
-  bottom: 0;
-  background-color: #242424;
-  border-top: 2px solid #fff;
-} */
-</style>
+<style scoped></style>

@@ -8,7 +8,7 @@
         <th>Удалить</th>
         <th>Изменить</th>
       </tr>
-      <tr v-for="todo in currentUserData" :key="todo.id">
+      <tr v-for="todo in currentUserData">
         <td class="item-id">{{ todo.id }}</td>
         <td class="item-title" :class="{ done: todo.completed }">
           {{ todo.title }}

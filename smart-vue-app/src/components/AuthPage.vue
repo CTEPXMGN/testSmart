@@ -26,7 +26,13 @@
 import { saveUser } from "../storage";
 import usersAuthData from "../users";
 export default {
-  emits: ["setLogin", "setCurrentUser", "getTodos", "getUsers"],
+  emits: [
+    "setLogin",
+    "setCurrentUser",
+    "getAllTodos",
+    "getFilteringTodos",
+    "getUsers",
+  ],
   data() {
     return {
       login: "",
@@ -42,7 +48,8 @@ export default {
           ? (saveUser(this.login, this.password),
             this.$emit("setLogin"),
             this.$emit("setCurrentUser", user.id),
-            this.$emit("getTodos"),
+            this.$emit("getAllTodos"),
+            this.$emit("getFilteringTodos", user.id),
             this.$emit("getUsers"))
           : (this.correctInputData = false);
       });
