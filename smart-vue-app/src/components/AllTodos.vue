@@ -28,8 +28,8 @@
             v-if="todo.userId === currentUserId"
             class="item-btn item-btn__del"
             @click="
-              toggleMessage();
-              $emit('removeTask', todo.id);
+              // toggleMessage();
+              $emit('removeTask', todo.id)
             "
           ></button>
         </td>
@@ -47,6 +47,7 @@
 
 <script>
 export default {
+  emits: ["removeTask"],
   props: {
     todosData: {
       type: Array,
@@ -57,12 +58,21 @@ export default {
       required: true,
     },
   },
+  methods: {
+    toggleMessage() {
+      this.hideMessage = !this.hideMessage;
+      setTimeout(() => {
+        this.hideMessage = !this.hideMessage;
+      }, 2000);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .all-todos {
   flex-grow: 1;
+  padding-bottom: 100px;
 }
 .table {
   width: 100%;
