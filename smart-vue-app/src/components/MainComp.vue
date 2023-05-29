@@ -35,7 +35,10 @@
         <td class="item-change">
           <button
             class="item-btn item-btn__change"
-            @click="toggleEditTaskModal"
+            @click="
+              toggleEditTaskModal();
+              setEditableId(todo.id);
+            "
           ></button>
         </td>
       </tr>
@@ -53,6 +56,7 @@
       @addNewTask="this.$emit('editTask')"
       :editModalView="editModalView"
       :todosData="todosData"
+      :editableId="editableId"
     />
     <ShowMessage :class="{ hide: hideMessage }" :deletedId="deletedId" />
   </main>
@@ -81,6 +85,7 @@ export default {
       editModalView: true,
       hideMessage: true,
       deletedId: null,
+      editableId: null,
     };
   },
   methods: {
@@ -98,6 +103,9 @@ export default {
     },
     setDeletedId(id) {
       this.deletedId = id;
+    },
+    setEditableId(id) {
+      this.editableId = id;
     },
   },
 };

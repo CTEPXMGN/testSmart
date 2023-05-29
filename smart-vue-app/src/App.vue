@@ -67,6 +67,7 @@ export default {
     };
   },
   methods: {
+    // Получение списка всех задач
     async getAllTodos() {
       try {
         let response = await fetch(
@@ -82,6 +83,7 @@ export default {
         console.log(err.message);
       }
     },
+    // Получение списка всех пользователей
     async getUsers() {
       try {
         let response = await fetch(
@@ -100,6 +102,7 @@ export default {
         console.log(err.message);
       }
     },
+    // Получение списка задач данного пользователя
     async getFilteringTodos(id) {
       try {
         let response = await fetch(
@@ -115,6 +118,7 @@ export default {
         console.log(err.message);
       }
     },
+    // Смена страницы
     changeActivePage(num) {
       this.activePage = num;
     },
@@ -131,6 +135,7 @@ export default {
           (this.currentUserName = user.username)
       );
     },
+    // Удаление задачи
     removeTask(id) {
       fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
         method: "DELETE",
@@ -142,19 +147,40 @@ export default {
         return todo.id !== id;
       });
     },
-    editTask(task) {
-      fetch(`https://jsonplaceholder.typicode.com/todos/${task.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          title: task,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
+    // Редактирование задачи
+    async editTask(title, id) {
+      try {
+        let response = await fetch(
+          `https://jsonplaceholder.typicode.com/todos/${id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({
+              title: title,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        );
+        if (!response.ok) {
+          console.log("Error " + response.status);
+        } else {
+          const result = await response.json();
+          console.log(result);
+          this.todosData = this.todosData.map((task) => {
+            task.id === id && (task = result);
+            return task;
+          });
+          this.currentUserData = this.currentUserData.map((task) => {
+            task.id === id && (task = result);
+            return task;
+          });
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
     },
+    // Добавление задачи
     async addNewTask(task) {
       try {
         let response = await fetch(

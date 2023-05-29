@@ -6,7 +6,7 @@
         <button
           class="add-modal__btn-save"
           @click="
-            this.$parent.$emit('editTask', this.title); // $parent - это костыль? Как можно от него избавиться?
+            this.$parent.$emit('editTask', this.title, this.editableId); // $parent - это костыль? Как можно от него избавиться?
             handlerToggle();
           "
         >
@@ -29,6 +29,9 @@ export default {
     },
     todosData: {
       type: Array,
+    },
+    editableId: {
+      type: Number,
     },
   },
   data() {
