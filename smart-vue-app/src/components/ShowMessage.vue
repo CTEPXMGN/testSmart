@@ -1,11 +1,16 @@
 <template>
   <div class="message-modal">
-    <p class="message-modal__text">Запись {{ id }} удалена</p>
+    <p class="message-modal__text">Запись {{ deletedId }} удалена</p>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    deletedId: {
+      type: Number,
+    },
+  },
   data() {
     return {
       hideMessage: false,
@@ -30,6 +35,7 @@ export default {
   padding: 0 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
   border-radius: 10px;
   background-color: #42b983;
 }

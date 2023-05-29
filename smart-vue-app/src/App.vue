@@ -110,7 +110,6 @@ export default {
         } else {
           const result = await response.json();
           this.currentUserData = result;
-          console.log(result);
         }
       } catch (err) {
         console.log(err.message);
@@ -119,11 +118,6 @@ export default {
     changeActivePage(num) {
       this.activePage = num;
     },
-    // filterData() {
-    //   this.currentUserData = this.todosData.filter((task) => {
-    //     return task.userId === this.currentUserId;
-    //   });
-    // },
     setLogin() {
       this.isLogged = !this.isLogged;
     },
@@ -161,22 +155,32 @@ export default {
         .then((response) => response.json())
         .then((json) => console.log(json));
     },
-    addNewTask(task) {
-      fetch("https://jsonplaceholder.typicode.com/todos", {
-        method: "POST",
-        body: JSON.stringify({
-          title: task,
-          userId: 1,
-          complited: false,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => console.log(json))
-        .then((json) => this.todosData.concat(json))
-        .then(console.log(this.todosData));
+    async addNewTask(task) {
+      try {
+        let response = await fetch(
+          "https://jsonplaceholder.typicode.com/todos",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              title: task,
+              userId: this.currentUserId,
+              complited: false,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        );
+        if (!response.ok) {
+          console.log("Error " + response.status);
+        } else {
+          const result = await response.json();
+          this.todosData = this.todosData.concat(result);
+          this.currentUserData = this.currentUserData.concat(result);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
     },
     toggleDoneTask(id) {
       this.currentUserData = this.currentUserData.map((task) => {

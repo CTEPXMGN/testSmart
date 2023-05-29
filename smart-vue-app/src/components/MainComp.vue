@@ -28,6 +28,7 @@
             @click="
               toggleMessage();
               $emit('removeTask', todo.id);
+              setDeletedId(todo.id);
             "
           ></button>
         </td>
@@ -53,7 +54,7 @@
       :editModalView="editModalView"
       :todosData="todosData"
     />
-    <ShowMessage :class="{ hide: hideMessage }" />
+    <ShowMessage :class="{ hide: hideMessage }" :deletedId="deletedId" />
   </main>
 </template>
 
@@ -79,6 +80,7 @@ export default {
       addModalView: true,
       editModalView: true,
       hideMessage: true,
+      deletedId: null,
     };
   },
   methods: {
@@ -93,6 +95,9 @@ export default {
       setTimeout(() => {
         this.hideMessage = !this.hideMessage;
       }, 2000);
+    },
+    setDeletedId(id) {
+      this.deletedId = id;
     },
   },
 };
