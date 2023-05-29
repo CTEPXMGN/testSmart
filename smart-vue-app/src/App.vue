@@ -166,7 +166,6 @@ export default {
           console.log("Error " + response.status);
         } else {
           const result = await response.json();
-          console.log(result);
           this.todosData = this.todosData.map((task) => {
             task.id === id && (task = result);
             return task;
@@ -208,11 +207,37 @@ export default {
         console.log(err.message);
       }
     },
-    toggleDoneTask(id) {
-      this.currentUserData = this.currentUserData.map((task) => {
-        task.id === id && (task.completed = !task.completed);
-        return task;
-      });
+    // Чек выполнения задачи
+    async toggleDoneTask(check, id) {
+      try {
+        let response = await fetch(
+          `https://jsonplaceholder.typicode.com/todos/${id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({
+              completed: !check,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        );
+        if (!response.ok) {
+          console.log("Error " + response.status);
+        } else {
+          const result = await response.json();
+          this.todosData = this.todosData.map((task) => {
+            task.id === id && (task = result);
+            return task;
+          });
+          this.currentUserData = this.currentUserData.map((task) => {
+            task.id === id && (task = result);
+            return task;
+          });
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
     },
   },
 };

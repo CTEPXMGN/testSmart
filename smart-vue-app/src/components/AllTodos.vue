@@ -28,8 +28,8 @@
             v-if="todo.userId === currentUserId"
             class="item-btn item-btn__del"
             @click="
-              // toggleMessage();
-              $emit('removeTask', todo.id)
+              toggleMessage();
+              $emit('removeTask', todo.id);
             "
           ></button>
         </td>
@@ -37,17 +37,48 @@
           <button
             v-if="todo.userId === currentUserId"
             class="item-btn item-btn__change"
-            @click="toggleEditTaskModal"
+            @click="
+              toggleEditTaskModal();
+              setEditableId(todo.id);
+            "
           ></button>
         </td>
       </tr>
     </table>
+
+    <button class="add-item__btn" @click="toggleNewTaskModal"></button>
+    <AddTaskModal
+      @toggleNewTaskModal="toggleNewTaskModal"
+      @addNewTask="this.$emit('addNewTask')"
+      :addModalView="addModalView"
+      :todosData="todosData"
+    />
+    <AddEditModal
+      @toggleEditTaskModal="toggleEditTaskModal"
+      @addNewTask="this.$emit('editTask')"
+      :editModalView="editModalView"
+      :todosData="todosData"
+      :editableId="editableId"
+    />
+    <ShowMessage :class="{ hide: hideMessage }" :deletedId="deletedId" />
   </div>
 </template>
 
 <script>
+import AddTaskModal from "./AddTaskModal.vue";
+import AddEditModal from "./AddEditModal.vue";
+import ShowMessage from "./ShowMessage.vue";
 export default {
   emits: ["removeTask"],
+  data() {
+    return {
+      addModalView: true,
+      editModalView: true,
+      hideMessage: true,
+      deletedId: null,
+      editableId: null,
+    };
+  },
   props: {
     todosData: {
       type: Array,
@@ -59,11 +90,23 @@ export default {
     },
   },
   methods: {
+    toggleNewTaskModal() {
+      this.addModalView = !this.addModalView;
+    },
+    toggleEditTaskModal() {
+      this.editModalView = !this.editModalView;
+    },
     toggleMessage() {
       this.hideMessage = !this.hideMessage;
       setTimeout(() => {
         this.hideMessage = !this.hideMessage;
       }, 2000);
+    },
+    setDeletedId(id) {
+      this.deletedId = id;
+    },
+    setEditableId(id) {
+      this.editableId = id;
     },
   },
 };

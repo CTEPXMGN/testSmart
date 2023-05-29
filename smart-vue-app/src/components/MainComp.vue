@@ -18,7 +18,7 @@
             class="item-check__input"
             type="checkbox"
             v-bind:checked="todo.completed"
-            @click="$emit('toggleDoneTask', todo.id)"
+            @change="$emit('toggleDoneTask', todo.completed, todo.id)"
           />
           <div class="chekbox"></div>
         </td>
