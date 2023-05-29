@@ -47,20 +47,20 @@
     </table>
 
     <button class="add-item__btn" @click="toggleNewTaskModal"></button>
-    <AddTaskModal
+    <add-task-modal
       @toggleNewTaskModal="toggleNewTaskModal"
       @addNewTask="this.$emit('addNewTask')"
       :addModalView="addModalView"
       :todosData="todosData"
     />
-    <AddEditModal
+    <add-edit-modal
       @toggleEditTaskModal="toggleEditTaskModal"
       @addNewTask="this.$emit('editTask')"
       :editModalView="editModalView"
       :todosData="todosData"
       :editableId="editableId"
     />
-    <ShowMessage :class="{ hide: hideMessage }" :deletedId="deletedId" />
+    <show-message :class="{ hide: hideMessage }" :deletedId="deletedId" />
   </div>
 </template>
 
@@ -116,6 +116,9 @@ export default {
 .all-todos {
   flex-grow: 1;
   padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 .table {
   width: 100%;

@@ -29,6 +29,9 @@
       :todosData="todosData"
       :currentUserId="currentUserId"
       @removeTask="removeTask"
+      @toggleDoneTask="toggleDoneTask"
+      @addNewTask="addNewTask"
+      @editTask="editTask"
     />
 
     <users-comp v-else-if="activePage === 3" :usersData="usersData" />
@@ -209,6 +212,7 @@ export default {
     },
     // Чек выполнения задачи
     async toggleDoneTask(check, id) {
+      console.log(check, id);
       try {
         let response = await fetch(
           `https://jsonplaceholder.typicode.com/todos/${id}`,
