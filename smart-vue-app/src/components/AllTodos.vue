@@ -19,7 +19,7 @@
             type="checkbox"
             v-if="todo.userId === currentUserId"
             v-bind:checked="todo.completed"
-            @click="$emit('toggleDoneTask', todo.id)"
+            @change="$emit('toggleDoneTask', todo.completed, todo.id)"
           />
           <div class="chekbox"></div>
         </td>
@@ -69,7 +69,7 @@ import AddTaskModal from "./AddTaskModal.vue";
 import AddEditModal from "./AddEditModal.vue";
 import ShowMessage from "./ShowMessage.vue";
 export default {
-  emits: ["removeTask"],
+  emits: ["removeTask", "toggleDoneTask", "addNewTask", "editTask"],
   data() {
     return {
       addModalView: true,
