@@ -14,7 +14,13 @@
         <td class="item-title" :class="{ done: todo.completed }">
           {{ todo.title }}
         </td>
-        <td class="item-user">
+        <td
+          class="item-user"
+          @click="
+            $emit('showUserInfo', todo.userId);
+            $emit('changeActivePage', 4);
+          "
+        >
           {{ this.getUserName(todo.userId) }}
         </td>
         <td class="item-check">
@@ -53,7 +59,7 @@
 
     <div class="all-todos__footer">
       <button class="add-item__btn" @click="toggleNewTaskModal"></button>
-      <select name="" id="">
+      <select>
         <option value="20">20</option>
         <option value="50">50</option>
         <option value="100">100</option>
@@ -102,7 +108,14 @@ export default {
       required: true,
     },
   },
-  emits: ["removeTask", "toggleDoneTask", "addNewTask", "editTask"],
+  emits: [
+    "removeTask",
+    "toggleDoneTask",
+    "addNewTask",
+    "editTask",
+    "showUserInfo",
+    "changeActivePage",
+  ],
   data() {
     return {
       addModalView: true,

@@ -70,7 +70,8 @@ export default {
   flex-direction: column;
   align-items: center;
   border-radius: 5px;
-  background-color: lightgray;
+  border: 1px solid #42b983;
+  background-color: #242424;
   color: black;
 }
 

@@ -33,9 +33,23 @@
       @toggleDoneTask="toggleDoneTask"
       @addNewTask="addNewTask"
       @editTask="editTask"
+      @showUserInfo="showUserInfo"
+      @changeActivePage="changeActivePage"
     />
 
-    <users-comp v-else-if="activePage === 3" :usersData="usersData" />
+    <users-comp
+      v-else-if="activePage === 3"
+      :usersData="usersData"
+      @showUserInfo="showUserInfo"
+      @changeActivePage="changeActivePage"
+    />
+
+    <user-info
+      v-else-if="activePage === 4"
+      :lastActivePage="lastActivePage"
+      :anyUserData="anyUserData"
+      @changeActivePage="changeActivePage"
+    />
 
     <footer-comp />
   </div>
@@ -48,6 +62,7 @@ import MainComp from "./components/MainComp.vue";
 import AllTodos from "./components/AllTodos.vue";
 import UsersComp from "./components/Users.vue";
 import AuthPage from "./components/AuthPage.vue";
+import UserInfo from "./components/UserInfo.vue";
 
 export default {
   components: {
@@ -57,16 +72,19 @@ export default {
     AllTodos,
     UsersComp,
     AuthPage,
+    UserInfo,
   },
   data() {
     return {
       activePage: 1,
+      lastActivePage: 1,
       currentUserId: 0,
       currentUserName: "",
       editableTask: null,
       isLogged: false,
       todosData: [],
       usersData: [],
+      anyUserData: null,
       currentUserData: [],
     };
   },
@@ -124,6 +142,7 @@ export default {
     },
     // Смена страницы
     changeActivePage(num) {
+      this.lastActivePage = this.activePage;
       this.activePage = num;
     },
     setLogin() {
@@ -242,6 +261,9 @@ export default {
       } catch (err) {
         console.log(err.message);
       }
+    },
+    showUserInfo(userId) {
+      this.anyUserData = this.usersData.filter((user) => user.id === userId)[0];
     },
   },
 };

@@ -9,7 +9,13 @@
       </tr>
       <tr v-for="user in usersData" :key="user.id">
         <td class="user-id">{{ user.id }}</td>
-        <td class="user-name">
+        <td
+          class="user-name"
+          @click="
+            $emit('showUserInfo', todo.userId);
+            $emit('changeActivePage', 4);
+          "
+        >
           {{ user.name }}
         </td>
         <td class="user-email">{{ user.email }}</td>
@@ -27,6 +33,7 @@ export default {
       required: true,
     },
   },
+  emits: ["showUserInfo", "changeActivePage"],
 };
 </script>
 
@@ -44,6 +51,12 @@ export default {
 
 .user-id {
   width: 50px;
+}
+
+.user-name:hover {
+  color: white;
+  background-color: teal;
+  cursor: pointer;
 }
 
 .user-name,
