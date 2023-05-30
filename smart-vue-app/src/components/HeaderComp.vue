@@ -23,7 +23,7 @@
       <span> {{ currentUserName }}</span>
     </h2>
     <button class="header__button" @click="handleAuth">
-      {{ isLogged ? "Выйти" : "Войти" }}
+      <span> {{ isLogged ? "Выйти" : "Войти" }}</span>
     </button>
   </header>
 </template>

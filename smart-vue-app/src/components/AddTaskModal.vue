@@ -64,6 +64,7 @@ export default {
 
 .add-modal__form {
   width: 220px;
+  height: 100px;
   padding: 20px;
   display: flex;
   flex-direction: column;

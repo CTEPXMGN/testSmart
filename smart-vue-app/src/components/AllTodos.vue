@@ -4,6 +4,7 @@
       <tr>
         <th>№</th>
         <th>Задача</th>
+        <th>Пользователь</th>
         <th>Выполнено</th>
         <th>Удалить</th>
         <th>Изменить</th>
@@ -12,6 +13,9 @@
         <td class="item-id">{{ todo.id }}</td>
         <td class="item-title" :class="{ done: todo.completed }">
           {{ todo.title }}
+        </td>
+        <td class="item-user">
+          {{ this.getUserName(todo.userId) }}
         </td>
         <td class="item-check">
           <input
@@ -30,6 +34,7 @@
             @click="
               toggleMessage();
               $emit('removeTask', todo.id);
+              setDeletedId(todo.id);
             "
           ></button>
         </td>
@@ -46,7 +51,16 @@
       </tr>
     </table>
 
-    <button class="add-item__btn" @click="toggleNewTaskModal"></button>
+    <div class="all-todos__footer">
+      <button class="add-item__btn" @click="toggleNewTaskModal"></button>
+      <select name="" id="">
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+    </div>
+
     <add-task-modal
       @toggleNewTaskModal="toggleNewTaskModal"
       @addNewTask="this.$emit('addNewTask')"
@@ -69,15 +83,10 @@ import AddTaskModal from "./AddTaskModal.vue";
 import AddEditModal from "./AddEditModal.vue";
 import ShowMessage from "./ShowMessage.vue";
 export default {
-  emits: ["removeTask", "toggleDoneTask", "addNewTask", "editTask"],
-  data() {
-    return {
-      addModalView: true,
-      editModalView: true,
-      hideMessage: true,
-      deletedId: null,
-      editableId: null,
-    };
+  components: {
+    AddTaskModal,
+    AddEditModal,
+    ShowMessage,
   },
   props: {
     todosData: {
@@ -88,6 +97,20 @@ export default {
       type: Number,
       required: true,
     },
+    usersData: {
+      type: Array,
+      required: true,
+    },
+  },
+  emits: ["removeTask", "toggleDoneTask", "addNewTask", "editTask"],
+  data() {
+    return {
+      addModalView: true,
+      editModalView: true,
+      hideMessage: true,
+      deletedId: null,
+      editableId: null,
+    };
   },
   methods: {
     toggleNewTaskModal() {
@@ -108,6 +131,14 @@ export default {
     setEditableId(id) {
       this.editableId = id;
     },
+    getUserName(id) {
+      return this.usersData.map((user) => {
+        return user.id === id ? user.name : "";
+      })[id - 1];
+    },
+  },
+  mounted() {
+    this.getUserName();
   },
 };
 </script>
@@ -130,8 +161,18 @@ export default {
   width: 50px;
 }
 
+.item-user:hover {
+  color: white;
+  background-color: teal;
+  cursor: pointer;
+}
+
 .item-check {
   width: 50px;
+}
+
+.item-check__input {
+  cursor: pointer;
 }
 
 .item-title {
@@ -180,7 +221,8 @@ th {
 .add-item__btn {
   height: 50px;
   width: calc(100% - 40px);
-  margin: 20px auto;
+  /* margin: 20px auto; */
+  margin-right: 20px;
   border: 1px solid #42b983;
   background-color: inherit;
   background-size: 25px;
@@ -192,5 +234,12 @@ th {
 .done {
   text-decoration: line-through;
   color: rgb(88, 88, 88);
+}
+
+.all-todos__footer {
+  width: calc(100% - 40px);
+  margin: 20px auto;
+  display: flex;
+  flex-direction: row;
 }
 </style>
