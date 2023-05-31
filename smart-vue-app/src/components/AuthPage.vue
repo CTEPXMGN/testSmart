@@ -35,8 +35,8 @@ export default {
   ],
   data() {
     return {
-      login: "",
-      password: "",
+      login: "1",
+      password: "1",
       correctInputData: true,
     };
   },

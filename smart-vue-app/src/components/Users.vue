@@ -12,7 +12,7 @@
         <td
           class="user-name"
           @click="
-            $emit('showUserInfo', todo.userId);
+            $emit('showUserInfo', user.id);
             $emit('changeActivePage', 4);
           "
         >

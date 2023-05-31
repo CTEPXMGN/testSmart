@@ -48,6 +48,7 @@
       v-else-if="activePage === 4"
       :lastActivePage="lastActivePage"
       :anyUserData="anyUserData"
+      @showUserInfo="showUserInfo"
       @changeActivePage="changeActivePage"
     />
 
